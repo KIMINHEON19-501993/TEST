@@ -96,7 +96,7 @@ public class UploadController {
 			}
 		}else {
 			System.out.println("file이 존재하지 않습니다.");
-			result = -1;
+			result = -1; //-1반환
 		}
 		
 		return result;

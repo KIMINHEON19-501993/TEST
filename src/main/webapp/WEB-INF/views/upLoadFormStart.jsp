@@ -35,17 +35,6 @@ iframe {
 			alert(msg);
 			document.getElementById("form1").reset();
 		}
-		
-		function addFilePath2(msg) {
-			if (msg == 1) {
-				alert("삭제 성공");
-			}else if(msg == 0){
-				alert("삭제 실패");
-			}else if(msg == -1){
-				alert("존재하지 않는 파일");
-			}
-			document.getElementById("form1").reset();
-		}
 	</script>
 
 </body>
