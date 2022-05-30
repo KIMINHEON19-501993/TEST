@@ -92,7 +92,7 @@ public class UploadController {
 				result = 1;
 			}else {
 				System.out.println("file 삭제 성공");
-				result = 1;
+				result = 1;//1반환
 			}
 		}else {
 			System.out.println("file이 존재하지 않습니다.");
