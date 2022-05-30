@@ -7,11 +7,8 @@
 var result    = '${savedName}';
 var delResult =  ${delResult};
 
-if (result != '') {
-	parent.addFilePath(result); //부모의 addFilePath 실행
-}else if(delResult == -1){
-	parent.addFilePath2(delResult); //부모의 addFilePath 실행
-}
+parent.addFilePath(result); //부모의 addFilePath 실행
+
 
 
 
