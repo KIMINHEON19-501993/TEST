@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.oracle.oBootMybatis01.EmpMapper">
+	<select id="tkEmpTotal" resultType="int">
+		select count(*) from emp
+	</select>
+	<select id="tkEmpListAll3" parameterType="Emp" resultType="Emp">
+		select * from (
+		    select rownum rn, a.* from (
+		        select * from emp order by empno
+		    ) a
+		) where rn between #{start} and #{end}
+	</select>
+	
+	<select id="tkEmpListAll" parameterType="Emp" resultType="Emp">
+		<![CDATA[
+		select * from (
+		    select rownum rn, a.* from (
+		        select * from emp order by empno
+		    ) a
+		) where rn >= #{start} and rn <= #{end}
+		]]>
+	</select>
+	
+	<!-- #{empno}는 다른이름으로 바꿔도 상관없음 -->
+	<select id="tkEmpSelOne" parameterType="int" resultType="Emp">
+		select * from emp where empno = #{empno} 
+	</select>
+	<update id="tkEmpUpdate" parameterType="Emp">
+		update emp set ename=#{ename}, job=#{job}, mgr=#{mgr}, sal=#{sal}, hiredate=#{hiredate}, comm=#{comm}, deptno=#{deptno} where empno=#{empno}
+	</update>
+	<select id="tkSelectManager" resultType="Emp">
+		select * from emp where empno in (select mgr from emp)
+	</select>
+	<insert id="insertEmp" parameterType="Emp">
+		insert into emp values(#{empno}, #{ename}, #{job}, #{mgr}, #{hiredate}, #{sal}, #{comm}, #{deptno})
+	</insert>
+	<delete id="delete" parameterType="int">
+		delete from emp where empno=#{empno}
+	</delete>
+	
+	<select id="tkEmpListKeyword" parameterType="Emp" resultType="Emp">
+		select * from (
+		    select rownum rn, a.* from (
+		        select * from emp where 
+		<choose>
+			<when test="search=='s_all'">
+				ename like '%' || #{keyword} || '%'
+					or job like '%' || #{keyword} || '%'
+			</when>
+			<when test="search=='s_job'">
+				job like '%' || #{keyword} || '%'
+			</when>
+			<when test="search=='s_ename'">
+				ename like '%' || #{keyword} || '%'
+			</when>
+			<otherwise>
+				job like '%'
+			</otherwise>
+		</choose>
+		   order by empno ) a
+		) where rn between #{start} and #{end}
+		
+	</select>
+	<select id="tkEmpTotalKeyword" parameterType="Emp" resultType="int">
+		select count(*) from emp
+		<choose>
+			<when test="search=='s_all'">
+				where ename like '%' || #{keyword} || '%'
+					or job like '%' || #{keyword} || '%'
+			</when>
+			<when test="search=='s_job'">
+				where job like '%' || #{keyword} || '%'
+			</when>
+			<when test="search=='s_ename'">
+				where ename like '%' || #{keyword} || '%'
+			</when>
+			<otherwise>
+				where job like '%'
+			</otherwise>
+		</choose>
+	</select>
+</mapper>
